@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotReload.Sample.API.Controllers
+namespace Sample.WebApp.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

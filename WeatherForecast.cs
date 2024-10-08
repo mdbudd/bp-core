@@ -1,4 +1,4 @@
-namespace HotReload.Sample.API
+namespace Sample.WebApp.API
 {
     public class WeatherForecast
     {
