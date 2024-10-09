@@ -1,19 +1,28 @@
+using Microsoft.EntityFrameworkCore;
+using MyWebApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<SalesContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SalesDb")));
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+using(var scope = app.Services.CreateScope())
 {
-    app.UseExceptionHandler("/Error");
+    var salesContext = scope.ServiceProvider.GetRequiredService<SalesContext>();
+    salesContext.Database.EnsureCreated();
+    salesContext.Seed();
 }
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -22,16 +31,11 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-
-app.UseRouting();
+// Configure the HTTP request pipeline.
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapRazorPages();
-
 app.Run();
+
