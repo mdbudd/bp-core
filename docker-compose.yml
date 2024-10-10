@@ -21,3 +21,14 @@ services:
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=A&VeryComplex123Password
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: uzer
+      MONGO_INITDB_ROOT_PASSWORD: pazzwurd
+    volumes:
+      - ./db_data/:/data/db/
